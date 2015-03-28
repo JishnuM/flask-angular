@@ -3,3 +3,9 @@
 bin
 lib
 include
+
+# Python
+*.pyc
+
+# Vim
+*.swp

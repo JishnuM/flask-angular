@@ -1,10 +1,18 @@
 from flask import abort, Blueprint, jsonify, request
-from database import Database, User, Unit, Address
+from database import Database
 import json
 
 api = Blueprint('api', __name__)
 
-db = Database()
+db = None
+
+@api.record
+def record_setup(setup_state):
+    global db
+    app = setup_state.app
+    mongo_url = app.config.get('MONGODB_URL')
+    mongo_db_name = app.config.get('MONGODB_DBNAME')
+    db = Database(mongo_url, mongo_db_name)
 
 @api.route('/user', methods=['GET'])
 def get_current_user():
@@ -13,47 +21,37 @@ def get_current_user():
 
 @api.route('/user/<userid>', methods=['GET', 'POST', 'DELETE'])
 def handle_user_request(userid):
-    userid = int(userid)
     if request.method == 'GET':
         user = db.get_user(userid)
         if not user:
             abort(404)
         else:
-            return jsonify(user.__dict__)
+            return jsonify(user)
     elif request.method == 'POST':
         update_data = request.get_json(force=True)
-        updated_user = User(userid, update_data['email'], update_data['first_name'], update_data['last_name'])
-        db.update_user(updated_user)
-        return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+        update_success = db.update_user(userid, update_data)
+        return jsonify(success=update_success)
     elif request.method == 'DELETE':
-        db.delete_user(userid)
-        return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+        delete_success = db.delete_user(userid)
+        return jsonify(success=delete_success)
     else:
         abort()
 
 @api.route('/unit/<unitid>', methods=['GET', 'POST', 'DELETE'])
 def handle_unit_request(unitid):
-    unitid = int(unitid)
     if request.method == 'GET':
-        unit = db.get_unit_dict(unitid)
+        unit = db.get_unit(unitid)
         if not unit:
             abort(404)
         else:
             return jsonify(unit)
     elif request.method == 'POST':
-        ## TODO consider changing to allow update of only one field
-        ## instead of replacing entire object on each update
         update_data = request.get_json(force=True)
-        updated_address = Address(update_data['block'], update_data['street'], update_data['pin'], update_data['city'], update_data['country'], update_data['lat'], update_data['lng'])
-        creator = db.get_user(update_data['creator_id'])
-        if not creator:
-            return json.dumps({'success':False}), 200, {'ContentType':'application/json'}
-        updated_unit = Unit(unitid, updated_address, update_data['num_rooms'], update_data['num_bathrooms'], update_data['sqft'], creator)
-        db.update_unit(updated_unit)
-        return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+        update_success = db.update_unit(unitid, update_data)
+        return jsonify(success=update_success)
     elif request.method == 'DELETE':
-        db.delete_unit(unitid)
-        return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+        delete_success = db.delete_unit(unitid)
+        return jsonify(success=delete_success)
     else:
         abort()
 
@@ -67,6 +65,5 @@ def create_user():
 @api.route('/createunit', methods=['POST'])
 def create_unit():
     unit_data = request.get_json(force=True)
-    unit_address = Address(unit_data['block'], unit_data['street'], unit_data['pin'], unit_data['city'], unit_data['country'], unit_data['lat'], unit_data['lng'])
-    unit_id = db.create_unit(unit_address, unit_data['num_rooms'], unit_data['num_bathrooms'], unit_data['sqft'], unit_data['creator_id'])
+    unit_id = db.create_unit(unit_data['block'], unit_data['street'], unit_data['pin'], unit_data['city'], unit_data['country'], unit_data['lat'], unit_data['lng'], unit_data['num_rooms'], unit_data['num_bathrooms'], unit_data['sqft'], unit_data['creator_id'])
     return jsonify(unit_id=unit_id)

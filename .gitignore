@@ -9,3 +9,7 @@ include
 
 # Vim
 *.swp
+
+# Config
+dev-config.py
+server-config.py

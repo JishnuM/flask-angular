@@ -13,3 +13,6 @@ include
 # Config
 dev-config.py
 server-config.py
+
+# Bower
+static/bower_components

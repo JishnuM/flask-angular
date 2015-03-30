@@ -1,0 +1,18 @@
+<div>
+    <div>
+        <h2>Existing User Login</h2>
+        <form ng-submit="login_user()">
+            <input type="email" ng-model="login_email" name="login-email" />
+            <input type="submit" id="login-submit" value="Login" />
+        </form>
+    </div>
+    <div>
+        <h2>Create New User:</h2>
+        <form ng-submit="create_user()">
+            <input type="email" ng-model="new_user_email" name="new-user-email" />
+            <input type="text" ng-model="new_user_first_name" name="new-user-first-name" />
+            <input type="text" ng-model="new_user_last_name" name="new-user-last-name" />
+            <input type="submit" id="new_user_submit" value="Create User" />
+        </form>
+    </div>
+</div>

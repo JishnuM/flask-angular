@@ -1,0 +1,14 @@
+<html ng-app="flaskAngularApp">
+    <head>
+        <title>Flask Angular</title>
+        <script src="{{ url_for('static', filename='bower_components/angular/angular.js') }}"></script>
+        <script src="{{ url_for('static', filename='bower_components/angular-route/angular-route.js') }}"></script>
+        <script src="{{ url_for('static', filename='bower_components/angular-resource/angular-resource.js') }}"></script>
+        <script src="{{ url_for('static', filename='main.js') }}"></script>
+        <script src="{{ url_for('static', filename='controllers.js') }}"></script>
+        <script src="{{ url_for('static', filename='services.js') }}"></script>
+    </head>
+    <body>
+        <div ng-view></div>
+    </body>
+</html>

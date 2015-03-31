@@ -24,6 +24,10 @@ flaskAngularApp.config(['$routeProvider',
                 templateUrl: '/static/partials/unit.html',
                 controller: 'UnitController'
             }).
+            when('/users', {
+                templateUrl: '/static/partials/userlist.html',
+                controller: 'UserListController'
+            }).
             otherwise({
                 redirectTo: '/'
             });

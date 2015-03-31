@@ -69,6 +69,15 @@ flaskAngularControllers.controller('UserController',
     }
 ]);
 
+flaskAngularControllers.controller('UserListController',
+    ['$scope', 'User', 'UserManager',
+    function($scope, User, UserManager){
+        var users = User.getAll({}, function(){ 
+            $scope.users = users.data;
+        });    
+    }
+]);
+
 flaskAngularControllers.controller('UnitController', 
     ['$scope', '$location', '$routeParams','Unit', 'UserManager',
     function($scope, $location, $routeParams, Unit, UserManager) {

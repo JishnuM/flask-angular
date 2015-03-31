@@ -40,8 +40,8 @@ flaskAngularControllers.controller('HomeController',
 ]);
 
 flaskAngularControllers.controller('UserController', 
-    ['$scope', '$location', '$routeParams', 'User', 'UserManager',
-    function($scope, $location, $routeParams, User, UserManager) {
+    ['$scope', '$location', '$routeParams', 'Unit', 'User', 'UserManager',
+    function($scope, $location, $routeParams, Unit, User, UserManager) {
         $scope.current_user_id = UserManager.getUserId();
         var user_id = $routeParams.userId;
         var user = User.get({userId: user_id}, function(){
@@ -65,6 +65,26 @@ flaskAngularControllers.controller('UserController',
                 //Really hacky fix since API doesnt return object on save
                 user.$get({userId: user_id});
             });
+        }
+        $scope.create_unit = function(){
+            $scope.show_form = false;
+            var data = {}
+            data.creator_id = $scope.current_user_id;
+            data.num_rooms = $scope.num_rooms;
+            data.num_bathrooms = $scope.num_bathrooms;
+            data.sqft = $scope.sqft;
+            data.address = {}
+            data.address.block_number = $scope.block_number;
+            data.address.street_name = $scope.street_name;
+            data.address.postal_code = $scope.postal_code;
+            data.address.city = $scope.city;
+            data.address.country = $scope.country;
+            data.address.coordinates = [$scope.lat, $scope.lng]
+            var new_unit = Unit.create(data, function(){
+                var units = User.getUnits({userId: user_id}, function(){
+                    $scope.units = units.data;
+                }); 
+            }) 
         }
     }
 ]);

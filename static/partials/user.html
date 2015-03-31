@@ -25,6 +25,20 @@
     </ul>
     <button ng-click="delete()" ng-show="current_user_id === user.uid">Delete User</button>
     <h2>User's Units:</h2>
+    <button ng-click="show_form = true" ng-init="show_form = false" ng-hide="show_form || (current_user_id !== user.uid)">Create Unit</button>
+    <form ng-show="show_form" ng-submit="create_unit()">
+        <input type="text" ng-model="block_number" name="block_number" placeholder="Block Number" /><br>
+        <input type="text" ng-model="street_name" name="street_name" placeholder="Street Name" /><br>
+        <input type="text" ng-model="postal_code" name="postal_code" placeholder="Postal Code" /><br>
+        <input type="text" ng-model="city" name="city" placeholder="City" /><br>
+        <input type="text" ng-model="country" name="country" placeholder="Country" /><br>
+        <input type="text" ng-model="lat" name="lat" placeholder="Latitude" /><br>
+        <input type="text" ng-model="lng" name="lng" placeholder="Longitude" /><br>
+        <input type="text" ng-model="num_rooms" name="num_rooms" placeholder="Number of Rooms" /><br>
+        <input type="text" ng-model="num_bathrooms" name="num_bathrooms" placeholder="Number of Bathrooms" /><br>
+        <input type="text" ng-model="sqft" name="sqft" placeholder="Area (in sqft)" /><br>
+        <input type="submit" id="new_unit_submit" value="Create Unit" />
+    </form>
     <ul>
         <li ng-repeat="unit in units"><a href="/#/unit/{{unit.uid}}">{{unit.address.block_number}} {{unit.address.street_name}}</a></li>
     </ul>

@@ -25,6 +25,6 @@
     <button ng-click="delete()" ng-show="current_user_id === user.uid">Delete User</button>
     <h2>User's Units:</h2>
     <ul>
-        <li ng-repeat="unit in units">{{unit.address.block_number}} {{unit.address.street_name}}</li>
+        <li ng-repeat="unit in units"><a href="/#/unit/{{unit.uid}}">{{unit.address.block_number}} {{unit.address.street_name}}</a></li>
     </ul>
 </div>

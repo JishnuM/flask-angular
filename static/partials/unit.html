@@ -1,2 +1,76 @@
 <div>
+    <a href="/#/user/{{unit.creator_id}}">View Creator's Profile</a>
+    <ul>
+        <li>
+            <h3>Block Number:</h3> 
+                <span editable-text="unit.address.block_number" e-form="blocknumForm" onaftersave="update()">
+                    {{unit.address.block_number || 'None'}}
+                </span>
+                <button ng-click="blocknumForm.$show()" ng-show="current_user_id === unit.creator_id && !blocknumForm.$visible">Edit</button>
+        </li>
+        <li>
+            <h3>Street Name: </h3>
+               <span editable-text="unit.address.street_name" e-form="streetnameForm" onaftersave="update()">
+                    {{unit.address.street_name || 'None'}}
+                </span> 
+                <button ng-click="streetnameForm.$show()" ng-show="current_user_id === unit.creator_id && !streetnameForm.$visible">Edit</button>
+        </li>
+        <li>
+            <h3>Postal Code:</h3> 
+                <span editable-text="unit.address.postal_code" e-form="postalcodeForm" onaftersave="update()">
+                    {{unit.address.postal_code || 'None'}}
+                </span>
+                <button ng-click="postalcodeForm.$show()" ng-show="current_user_id === unit.creator_id && !postalcodeForm.$visible">Edit</button>
+        </li>
+        <li>
+            <h3>City: </h3>
+               <span editable-text="unit.address.city" e-form="cityForm" onaftersave="update()">
+                    {{unit.address.city || 'None'}}
+                </span> 
+                <button ng-click="cityForm.$show()" ng-show="current_user_id === unit.creator_id && !cityForm.$visible">Edit</button>
+        </li>
+        <li>
+            <h3>Country:</h3> 
+                <span editable-text="unit.address.country" e-form="countryForm" onaftersave="update()">
+                    {{unit.address.country || 'None'}}
+                </span>
+                <button ng-click="countryForm.$show()" ng-show="current_user_id === unit.creator_id && !countryForm.$visible">Edit</button>
+        </li>
+        <li>
+            <h3>Latitude: </h3>
+               <span editable-text="unit.address.coordinates[0]" e-form="latitudeForm" onaftersave="update()">
+                    {{unit.address.coordinates[0] || 'None'}}
+                </span> 
+                <button ng-click="latitudeForm.$show()" ng-show="current_user_id === unit.creator_id && !latitudeForm.$visible">Edit</button>
+        </li>
+        <li>
+            <h3>Longitude:</h3> 
+                <span editable-text="unit.address.coordinates[1]" e-form="longitudeForm" onaftersave="update()">
+                    {{unit.coordiantes[1] || 'None'}}
+                </span>
+                <button ng-click="longitudeForm.$show()" ng-show="current_user_id === unit.creator_id && !longitudeForm.$visible">Edit</button>
+        </li>
+        <li>
+            <h3>Number of Rooms: </h3>
+               <span editable-text="unit.num_rooms" e-form="roomForm" onaftersave="update()">
+                    {{unit.num_rooms || 'None'}}
+                </span> 
+                <button ng-click="roomForm.$show()" ng-show="current_user_id === unit.creator_id && !roomForm.$visible">Edit</button>
+        </li>
+        <li>
+            <h3>Number of Bathrooms:</h3> 
+                <span editable-text="unit.num_bathrooms" e-form="bathroomForm" onaftersave="update()">
+                    {{unit.num_bathrooms || 'None'}}
+                </span>
+                <button ng-click="bathroomForm.$show()" ng-show="current_user_id === unit.creator_id && !bathroomForm.$visible">Edit</button>
+        </li>
+        <li>
+            <h3>Area in Square Feet: </h3>
+               <span editable-text="unit.sqft" e-form="sqftForm" onaftersave="update()">
+                    {{unit.sqft || 'None'}}
+                </span> 
+                <button ng-click="sqftForm.$show()" ng-show="current_user_id === unit.creator_id && !sqftForm.$visible">Edit</button>
+        </li>
+    </ul>
+    <button ng-click="delete()" ng-show="current_user_id === unit.creator_id">Delete Unit</button>
 </div>

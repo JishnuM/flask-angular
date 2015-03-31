@@ -69,8 +69,30 @@ flaskAngularControllers.controller('UserController',
     }
 ]);
 
-flaskAngularControllers.controller('UnitController', ['$scope', '$routeParams',
-    function($scope, $routeParams) {
-        //
+flaskAngularControllers.controller('UnitController', 
+    ['$scope', '$location', '$routeParams','Unit', 'UserManager',
+    function($scope, $location, $routeParams, Unit, UserManager) {
+        var unit_id = $routeParams.unitId;
+        $scope.current_user_id = UserManager.getUserId();
+        var unit = Unit.get({unitId: unit_id}, function(){
+            $scope.unit = unit;
+        }, function(res){
+            if(res.status === 404){
+                alert('No such unit');
+                $location.path('/user/' + UserManager.getUserId());
+            }
+        });
+        $scope.update = function(){
+            unit.$save(function(){
+                //Really hacky fix since API doesnt return object on save
+                unit.$get({unitId: unit_id});
+            });
+        }
+        $scope.delete = function(){
+            var res = Unit.remove({unitId: unit_id}, function(){
+                $location.path('/user/' + UserManager.getUserId());
+            }); 
+        }
+    
     }
 ]);

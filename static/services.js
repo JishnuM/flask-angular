@@ -20,7 +20,7 @@ flaskAngularServices.factory('User', ['$resource',
 
 flaskAngularServices.factory('Unit', ['$resource',
     function($resource){
-        return $resource('/api/unit/:unitId', {}, {
+        return $resource('/api/unit/:unitId', {'unitId': '@uid'}, {
             create: {method:'POST', url:'/api/createunit'},
             get: {method:'GET'},
             update: {method:'POST'},

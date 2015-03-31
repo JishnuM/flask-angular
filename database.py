@@ -39,7 +39,7 @@ class Database:
         res_user = self.users.delete_one({'_id': user_id})
         for unit in self.units.find({'creator_id': user_id}):
             address_id = unit['address_id']
-            db.addresses.delete_one({'_id': address_id})
+            self.addresses.delete_one({'_id': address_id})
         self.units.delete_many({'creator_id': user_id})
         if (res_user.deleted_count == 0):
             return False

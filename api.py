@@ -14,10 +14,17 @@ def record_setup(setup_state):
     mongo_db_name = app.config.get('MONGODB_DBNAME')
     db = Database(mongo_url, mongo_db_name)
 
-@api.route('/user', methods=['GET'])
-def get_current_user():
-    return jsonify(user='current')
-    ## TODO implement properly when adding login
+@api.route('/users', methods=['GET'])
+def get_all_users():
+    user_arr = db.get_all_users()
+    return_dict = {'data': user_arr}
+    return jsonify(return_dict)
+
+@api.route('/user-units/<userid>', methods=['GET'])
+def get_all_units(userid):
+    units_arr = db.get_all_units(userid)
+    return_dict = {'data': units_arr}
+    return jsonify(return_dict)
 
 @api.route('/user/<userid>', methods=['GET', 'POST', 'DELETE'])
 def handle_user_request(userid):
@@ -67,3 +74,11 @@ def create_unit():
     unit_data = request.get_json(force=True)
     unit_id = db.create_unit(unit_data['block'], unit_data['street'], unit_data['pin'], unit_data['city'], unit_data['country'], unit_data['lat'], unit_data['lng'], unit_data['num_rooms'], unit_data['num_bathrooms'], unit_data['sqft'], unit_data['creator_id'])
     return jsonify(unit_id=unit_id)
+
+@api.route('/user-email/<email>', methods=['GET'])
+def get_user_by_email(email):
+    user = db.get_user_by_email(email)
+    if not user:
+        abort(404)
+    else:
+        return jsonify(user)

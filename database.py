@@ -59,6 +59,31 @@ class Database:
         else:
             return None
 
+    def get_all_users(self):
+        to_return = []
+        for user_doc in self.users.find():
+            user_dict = {
+                'uid': str(user_doc['_id']),
+                'email': user_doc['email'],
+                'first_name': user_doc['first_name'],
+                'last_name': user_doc['last_name']
+            
+            }
+            to_return.append(user_dict)
+        return to_return
+
+    def get_user_by_email(self, email):
+        user_doc = self.users.find_one({'email': email})
+        if user_doc:
+            return {
+                'uid': str(user_doc['_id']),
+                'email': user_doc['email'],
+                'first_name': user_doc['first_name'],
+                'last_name': user_doc['last_name']
+            }
+        else:
+            return None
+
     def create_unit(self, block, street, pin, city, country, lat, lng, num_rooms, num_bathrooms, sqft, creator_id_str):
         address = {
             'block_number': block,
@@ -145,4 +170,30 @@ class Database:
             unit['address'] = address
             return unit
         else:
-            return None 
+            return None
+
+    def get_all_units(self, uid):
+        user_id = ObjectId(uid)
+        to_return = []
+        for unit_doc in self.units.find({'creator_id': user_id}):
+            unit = {
+                'uid': str(unit_doc['_id']),
+                'num_rooms': unit_doc['num_rooms'],
+                'num_bathrooms': unit_doc['num_bathrooms'],
+                'sqft': unit_doc['sqft'],
+                'creator_id': str(unit_doc['creator_id'])
+            }
+            address_doc = self.addresses.find_one({'_id': unit_doc['address_id']})
+            if not address_doc: 
+                continue;
+            address = {
+                'block_number': address_doc['block_number'],
+                'street_name': address_doc['street_name'],
+                'postal_code': address_doc['postal_code'],
+                'city': address_doc['city'],
+                'country': address_doc['country'],
+                'coordinates': address_doc['coordinates']
+            }
+            unit['address'] = address
+            to_return.append(unit)
+        return to_return

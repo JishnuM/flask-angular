@@ -175,5 +175,24 @@ class AppTestCase(unittest.TestCase):
         res = self.app.get('/api/unit/' + str(self.unit_three_id))
         assert res.status_code == 404
 
+    def test_get_user_by_email(self):
+        res = self.app.get('/api/user-email/' + self.user_one['email'])
+        db_user = json.loads(res.data)
+        assert db_user['email'] == self.user_one['email']
+        assert db_user['first_name'] == self.user_one['first_name']
+        assert db_user['last_name'] == self.user_one['last_name']
+
+    def test_get_all_users(self):
+        res = self.app.get('/api/users')
+        db_user_list = json.loads(res.data)['data']
+        #print db_user_list[:3]
+        assert len(db_user_list) >= 1
+
+    def test_get_user_units(self):
+        res = self.app.get('/api/user-units/' + self.user_two_id)
+        db_unit_list = json.loads(res.data)['data']
+        #print db_unit_list[:3]
+        assert len(db_unit_list)
+
 if __name__ == '__main__':
     unittest.main()

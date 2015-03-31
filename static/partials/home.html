@@ -9,9 +9,9 @@
     <div>
         <h2>Create New User:</h2>
         <form ng-submit="create_user()">
-            <input type="email" ng-model="new_user_email" name="new-user-email" />
-            <input type="text" ng-model="new_user_first_name" name="new-user-first-name" />
-            <input type="text" ng-model="new_user_last_name" name="new-user-last-name" />
+            <input type="email" ng-model="new_user_email" name="new-user-email" placeholder="Email"/><br>
+            <input type="text" ng-model="new_user_first_name" name="new-user-first-name" placeholder="First Name"/><br>
+            <input type="text" ng-model="new_user_last_name" name="new-user-last-name" placeholder="Last Name"/><br>
             <input type="submit" id="new_user_submit" value="Create User" />
         </form>
     </div>

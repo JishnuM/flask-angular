@@ -1,0 +1,30 @@
+<div>
+    <ul>
+        <li>
+            <h3>Email:</h3> 
+                <span editable-text="user.email" e-form="emailForm" onaftersave="update()">
+                    {{user.email || 'None'}}
+                </span>
+                <button ng-click="emailForm.$show()" ng-show="current_user_id === user.uid && !emailForm.$visible">Edit</button>
+        </li>
+        <li>
+            <h3>First Name: </h3>
+               <span editable-text="user.first_name" e-form="firstnameForm" onaftersave="update()">
+                    {{user.first_name || 'None'}}
+                </span> 
+                <button ng-click="firstnameForm.$show()" ng-show="current_user_id === user.uid && !firstnameForm.$visible">Edit</button>
+        </li>
+        <li>
+            <h3>Last Name: </h3>
+                <span editable-text="user.last_name" e-form="lastnameForm" onaftersave="update()">
+                    {{user.last_name || 'None'}}
+                </span>
+                <button ng-click="lastnameForm.$show()" ng-show="current_user_id === user.uid && !lastForm.$visible">Edit</button>
+        </li>
+    </ul>
+    <button ng-click="delete()" ng-show="current_user_id === user.uid">Delete User</button>
+    <h2>User's Units:</h2>
+    <ul>
+        <li ng-repeat="unit in units">{{unit.address.block_number}} {{unit.address.street_name}}</li>
+    </ul>
+</div>

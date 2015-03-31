@@ -4,6 +4,7 @@
 
 var flaskAngularApp = angular.module('flaskAngularApp', [
     'ngRoute',
+    'xeditable',
     'flaskAngularControllers',
     'flaskAngularServices'
 ]);
@@ -15,12 +16,12 @@ flaskAngularApp.config(['$routeProvider',
                 templateUrl: '/static/partials/home.html',
                 controller: 'HomeController'
             }).
-            when('/users/:userId', {
-                templateUrl: '/static/partial/user.html',
+            when('/user/:userId', {
+                templateUrl: '/static/partials/user.html',
                 controller: 'UserController'
             }).
-            when('/units/:unitId', {
-                templateUrl: '/static/partial/unit.html',
+            when('/unit/:unitId', {
+                templateUrl: '/static/partials/unit.html',
                 controller: 'UnitController'
             }).
             otherwise({

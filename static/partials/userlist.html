@@ -1,4 +1,6 @@
 <div>
+    <a href="/#/" ng-show="current_user_email == null">Go Home to Login</a>
+    <span ng-show="current_user_email != null">Currently logged in as {{current_user_email}}<button ng-click="logout()">Logout</button></span>
    <h2>All Users:</h2>
     <ul>
         <li ng-repeat="user in users"><a href="/#/user/{{user.uid}}">{{user.first_name}} {{user.last_name}}</a></li>

@@ -32,20 +32,25 @@ flaskAngularServices.factory('Unit', ['$resource',
 flaskAngularServices.factory('UserManager',
     function(){
         return {
-            saveUserId: function(id){
-                window.localStorage['flask-angular-user'] = id;
+            saveUser: function(id, email){
+                window.localStorage['flask-angular-user-id'] = id;
+                window.localStorage['flask-angular-user-email'] = email;
             },
             
-            getUserId: function(){
-                if (window.localStorage['flask-angular-user']){
-                    return window.localStorage['flask-angular-user']
+            getUser: function(){
+                if (window.localStorage['flask-angular-user-id']){
+                    return [
+                        window.localStorage['flask-angular-user-id'],
+                        window.localStorage['flask-angular-user-email']
+                    ]
                 } else {
-                    return null;
+                    return [null, null];
                 }
             },
             
-            clearUserId: function(){
-                window.localStorage['flask-angular-user'] = null;
+            clearUser: function(){
+                delete window.localStorage['flask-angular-user-id'];
+                delete window.localStorage['flask-angular-user-email'];
             }
         }
     }

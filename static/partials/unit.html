@@ -1,5 +1,7 @@
 <div>
-    <a href="/#/user/{{unit.creator_id}}">View Creator's Profile</a>
+    <a href="/#/" ng-show="current_user_email == null">Go Home to Login</a>
+    <span ng-show="current_user_email != null">Currently logged in as {{current_user_email}}<button ng-click="logout()">Logout</button></span>
+    <br><a href="/#/user/{{unit.creator_id}}">View Creator's Profile</a>
     <ul>
         <li>
             <h3>Block Number:</h3> 

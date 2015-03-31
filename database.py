@@ -113,16 +113,21 @@ class Database:
         for key in unit_dict:
             if key in unit_keys:
                 unit_updates[key] = unit_dict[key]
-            elif key in address_keys:
-                address_updates[key] = unit_dict[key]
+        if 'address' in unit_dict:
+            for key in unit_dict['address']:
+                if key in address_keys:
+                    address_updates[key] = unit_dict['address'][key]
         unit_id = ObjectId(uid)
         to_update = self.units.find_one({'_id': unit_id})
+        if not to_update:
+            return False
         address_id = to_update['address_id']
         creator_id = to_update['creator_id']
         creator = self.users.find_one({'_id': creator_id})
         if not creator:
             return False
         updated_count = 0
+
         if unit_updates:
             res_unit = self.units.update_one({'_id': unit_id}, {'$set': unit_updates}, False)
             updated_count += res_unit.modified_count

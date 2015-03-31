@@ -72,7 +72,7 @@ def create_user():
 @api.route('/createunit', methods=['POST'])
 def create_unit():
     unit_data = request.get_json(force=True)
-    unit_id = db.create_unit(unit_data['block'], unit_data['street'], unit_data['pin'], unit_data['city'], unit_data['country'], unit_data['lat'], unit_data['lng'], unit_data['num_rooms'], unit_data['num_bathrooms'], unit_data['sqft'], unit_data['creator_id'])
+    unit_id = db.create_unit(unit_data['address']['block_number'], unit_data['address']['street_name'], unit_data['address']['postal_code'], unit_data['address']['city'], unit_data['address']['country'], unit_data['address']['coordinates'][0], unit_data['address']['coordinates'][1], unit_data['num_rooms'], unit_data['num_bathrooms'], unit_data['sqft'], unit_data['creator_id'])
     return jsonify(unit_id=unit_id)
 
 @api.route('/user-email/<email>', methods=['GET'])

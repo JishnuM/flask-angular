@@ -31,39 +31,42 @@ class AppTestCase(unittest.TestCase):
         ## Assumes create unit works to spec
         self.unit_one = {
             'creator_id': self.user_two_id,
-            'block': '95',
-            'street': 'Orchard Road',
-            'pin': '149211',
-            'city': 'Singapore',
-            'country': 'Singapore',
-            'lat': '1.3',
-            'lng': '103.8',
+            'address': {
+                'block_number': '95',
+                'street_name': 'Orchard Road',
+                'postal_code': '149211',
+                'city': 'Singapore',
+                'country': 'Singapore',
+                'coordinates': ['1.3', '103.8']
+            },
             'num_rooms': 4,
             'num_bathrooms': 3,
             'sqft': 1500
         }
         self.unit_two = {
             'creator_id': self.user_two_id,
-            'block': '89A',
-            'street': 'Somerset Road',
-            'pin': '142311',
-            'city': 'Kuala Lumpur',
-            'country': 'Malaysia',
-            'lat': '10',
-            'lng': '103.8',
+            'address': {
+                'block_number': '89A',
+                'street_name': 'Somerset Road',
+                'postal_code': '142311',
+                'city': 'Kuala Lumpur',
+                'country': 'Malaysia',
+                'coordinates': ['10', '103.8']
+            },
             'num_rooms': 2,
             'num_bathrooms': 1,
             'sqft': 600
         }
         self.unit_three = {
             'creator_id': self.user_two_id,
-            'block': '34',
-            'street': 'Clementi Road',
-            'pin': '121212',
-            'city': 'Singapore',
-            'country': 'Singapore',
-            'lat': '1.3',
-            'lng': '103.8',
+            'address': {
+                'block_number': '34',
+                'street_name': 'Clementi Road',
+                'postal_code': '121212',
+                'city': 'Singapore',
+                'country': 'Singapore',
+                'coordinates': ['1.3','103.8']
+            },
             'num_rooms': 3,
             'num_bathrooms': 3,
             'sqft': 1200
@@ -74,6 +77,7 @@ class AppTestCase(unittest.TestCase):
         self.unit_one_id = json.loads(res_unit_one.data)['unit_id']
         self.unit_two_id = json.loads(res_unit_two.data)['unit_id']
         self.unit_three_id = json.loads(res_unit_three.data)['unit_id']
+    
     #def tearDown(self):   
 
     def test_create_user(self):
@@ -116,13 +120,14 @@ class AppTestCase(unittest.TestCase):
     def test_create_unit(self):
         new_unit = {
             'creator_id': self.user_one_id,
-            'block': '71',
-            'street': 'Diagon Alley',
-            'pin': '100101',
-            'city': 'Singapore',
-            'country': 'Singapore',
-            'lat': '1.3',
-            'lng': '103.8',
+            'address': {
+                'block_number': '71',
+                'street_name': 'Diagon Alley',
+                'postal_code': '100101',
+                'city': 'Singapore',
+                'country': 'Singapore',
+                'coordinates': ['1.3','103.8']
+            },
             'num_rooms': 3,
             'num_bathrooms': 1,
             'sqft': 700
@@ -135,28 +140,20 @@ class AppTestCase(unittest.TestCase):
         res = self.app.get('/api/unit/' + str(self.unit_one_id))
         db_unit = json.loads(res.data)
         assert db_unit is not None
-        assert db_unit['creator_id'] == self.unit_one['creator_id']
-        assert db_unit['address']['block_number'] == self.unit_one['block']
-        assert db_unit['address']['street_name'] == self.unit_one['street']
-        assert db_unit['address']['postal_code'] == self.unit_one['pin']
-        assert db_unit['address']['city'] == self.unit_one['city']
-        assert db_unit['address']['country'] == self.unit_one['country']
-        assert db_unit['address']['coordinates'][0] == self.unit_one['lat']
-        assert db_unit['address']['coordinates'][1] == self.unit_one['lng']
-        assert db_unit['num_rooms'] == self.unit_one['num_rooms']
-        assert db_unit['num_bathrooms'] == self.unit_one['num_bathrooms']
-        assert db_unit['sqft'] == self.unit_one['sqft']
+        for key in self.unit_one:
+            assert db_unit[key] == self.unit_one[key]
     
     def test_update_unit(self):
         updated_unit_two = {
             'creator_id': self.user_two_id,
-            'block': '89A',
-            'street': 'Somerset Road',
-            'pin': '142311',
-            'city': 'Kuala Lumpur',
-            'country': 'Malaysia',
-            'lat': '10',
-            'lng': '103.8',
+            'address': {
+                'block_number': '89A',
+                'street_name': 'Somerset Road',
+                'postal_code': '142311',
+                'city': 'Kuala Lumpur',
+                'country': 'China',
+                'coordinates': ['10','103.8']
+            },
             'num_rooms': 2,
             'num_bathrooms': 1,
             'sqft': 650
@@ -166,7 +163,8 @@ class AppTestCase(unittest.TestCase):
         assert json.loads(res_updated.data)['success'] is True
         res_new = self.app.get('/api/unit/' + str(self.unit_two_id))
         db_unit = json.loads(res_new.data)
-        assert db_unit['sqft'] == updated_unit_two['sqft']
+        for key in updated_unit_two:
+            assert db_unit[key] == updated_unit_two[key]
         self.unit_two = updated_unit_two
 
     def test_delete_unit(self):

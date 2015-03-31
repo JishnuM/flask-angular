@@ -29,8 +29,9 @@ flaskAngularControllers.controller('HomeController',
             data.first_name = $scope.new_user_first_name;
             data.last_name = $scope.new_user_last_name;
             var new_user = User.create(data, function(){
-                UserManager.saveUser(new_user.uid, new_user.email);
-                $location.path('/user/' + new_user.uid);
+                console.log(new_user);
+                UserManager.saveUser(new_user.user_id, data.email);
+                $location.path('/user/' + new_user.user_id);
             })
         }
         

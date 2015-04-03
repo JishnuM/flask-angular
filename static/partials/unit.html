@@ -48,7 +48,7 @@
         <li>
             <h3>Longitude:</h3> 
                 <span editable-text="unit.address.coordinates[1]" e-form="longitudeForm" onaftersave="update()">
-                    {{unit.coordiantes[1] || 'None'}}
+                    {{unit.coordinates[1] || 'None'}}
                 </span>
                 <button ng-click="longitudeForm.$show()" ng-show="current_user_id === unit.creator_id && !longitudeForm.$visible">Edit</button>
         </li>
